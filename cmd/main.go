@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 	"test-dep-prod/cmd/api"
 	"test-dep-prod/configs"
 	"test-dep-prod/db"
@@ -28,7 +30,10 @@ func main() {
 
 	initStorage(db)
 	// server-instance
-	server := api.NewAPIServer(":8000", db)
+
+	PORT := fmt.Sprintf(":%v", os.Getenv("PORT"))
+
+	server := api.NewAPIServer(PORT, db)
 	if err := server.Run(); err != nil {
 		log.Fatal("could not start server", err)
 	}
